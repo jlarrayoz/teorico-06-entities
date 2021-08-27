@@ -1,0 +1,11 @@
+/target/
+/.idea/
+*.iml
+/*.sql
+/*.ddl
+/*.log
+
+#especificos para el proyecto de eclipse
+.project
+.classpath
+.settings/
