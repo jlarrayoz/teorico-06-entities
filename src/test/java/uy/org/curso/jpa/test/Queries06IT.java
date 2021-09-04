@@ -10,6 +10,8 @@ import uy.org.curso.jpa.domain.Customer;
 
 import javax.persistence.*;
 
+import java.util.List;
+
 import static junit.framework.TestCase.*;
 import static org.junit.Assert.assertThrows;
 
@@ -89,5 +91,16 @@ public class Queries06IT {
 		catch(NonUniqueResultException | NoResultException ex){
 			assertTrue(ex instanceof NonUniqueResultException);
 		}
+	}
+
+	@Test
+	public void resultList() {
+		Query query = em.createQuery("Select c from Customer c where c.lastName = :apellido");
+		query.setParameter("apellido", "Larrayoz");
+
+		List<Customer> customers = query.getResultList();
+
+		//Existen 2 clientes con apellido Larrayoz
+		assertEquals(2, customers.size());
 	}
 }
