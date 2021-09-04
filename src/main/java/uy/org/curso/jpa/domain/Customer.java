@@ -12,7 +12,7 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String email;
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     private Address address;
 
     public Customer() {

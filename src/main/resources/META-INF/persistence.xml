@@ -12,14 +12,15 @@
         <class>uy.org.curso.jpa.domain.Address</class>
 
         <properties>
-            <property name="javax.persistence.schema-generation.database.action" value="create"/>
-<!--            <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>-->
-<!--            <property name="javax.persistence.schema-generation.scripts.create-target" value="practico03DBCreate.ddl"/>-->
-<!--            <property name="javax.persistence.schema-generation.scripts.drop-target" value="practico03DBDrop.ddl"/>-->
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.scripts.create-target" value="teorico06Create.ddl"/>
+            <property name="javax.persistence.schema-generation.scripts.drop-target" value="teorico06Drop.ddl"/>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.iapi.jdbc.AutoloadedDriver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/teorico06DB;create=true;territory=en_US"/>
             <property name="javax.persistence.jdbc.user" value="APP"/>
             <property name="javax.persistence.jdbc.password" value="APP"/>
+            <property name="javax.persistence.sql-load-script-source" value="insert_test.sql"/>
             <property name="eclipselink.logging.level" value="INFO"/>
         </properties>
     </persistence-unit>
