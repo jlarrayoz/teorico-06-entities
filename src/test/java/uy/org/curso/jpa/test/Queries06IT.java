@@ -6,6 +6,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import uy.org.curso.jpa.domain.Address;
+import uy.org.curso.jpa.domain.Banco;
 import uy.org.curso.jpa.domain.Customer;
 
 import javax.persistence.*;
@@ -102,5 +103,36 @@ public class Queries06IT {
 
 		//Existen 2 clientes con apellido Larrayoz
 		assertEquals(2, customers.size());
+	}
+
+	@Test
+	public void resultListTypedQuery() {
+		TypedQuery<Customer> query = em.createQuery("Select c from Customer c where c.lastName = :apellido", Customer.class);
+		query.setParameter("apellido", "Larrayoz");
+
+		List<Customer> customers = query.getResultList();
+
+		//Existen 2 clientes con apellido Larrayoz
+		assertEquals(2, customers.size());
+	}
+
+	/**
+	 * Validamos que al modificar se incremente en 1 el campo version
+	 */
+	@Test
+	public void versioning() {
+		TypedQuery<Banco> query = em.createQuery("Select b from Banco b where b.nombre = :nombre", Banco.class);
+		query.setParameter("nombre", "BSE");
+		Banco banco = query.getResultStream().findFirst().orElse(null);
+
+		assertEquals(Long.valueOf(1L), banco.getVersion());
+
+		tx.begin();
+		banco.setCodigoBCU("555");
+		tx.commit();
+
+		em.refresh(banco);
+
+		assertEquals(Long.valueOf(2L), banco.getVersion());
 	}
 }

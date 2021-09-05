@@ -3,12 +3,11 @@ package uy.org.curso.jpa;
 import uy.org.curso.jpa.domain.Address;
 import uy.org.curso.jpa.domain.Customer;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class Main {
 
@@ -38,5 +37,14 @@ public class Main {
         System.out.println("Fin - Cerrar la factory y el EntityManager");
         em.close();
         emf.close();
+    }
+
+    public static Customer singleResultList() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("curso_bse");
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Customer> query = em.createQuery("Select c from Customer c where c.lastName = :apellido", Customer.class);
+        query.setParameter("apellido", "Larrayoz");
+
+        return query.getSingleResult();
     }
 }

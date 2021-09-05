@@ -10,6 +10,7 @@
 
         <class>uy.org.curso.jpa.domain.Customer</class>
         <class>uy.org.curso.jpa.domain.Address</class>
+        <class>uy.org.curso.jpa.domain.Banco</class>
 
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
