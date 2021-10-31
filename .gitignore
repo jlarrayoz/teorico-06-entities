@@ -9,3 +9,5 @@
 .project
 .classpath
 .settings/
+/teorico06DB/
+derby.log
