@@ -1,24 +1,29 @@
 package uy.org.curso.jpa.domain;
 
-import javax.persistence.*;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 @Entity
-@Table
 public class Customer {
+  
     @Id
     @GeneratedValue
-    private Long id;
+	private Long id;
     private String firstName;
     private String lastName;
     private String email;
-    @OneToOne(orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email, Address address) {
+    public Customer(String email, String firstName, String lastName,  Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -57,6 +62,7 @@ public class Customer {
         this.email = email;
     }
 
+    
     public Address getAddress() {
         return address;
     }

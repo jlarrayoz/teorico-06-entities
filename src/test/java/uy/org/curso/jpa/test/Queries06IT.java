@@ -1,20 +1,30 @@
 package uy.org.curso.jpa.test;
 
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
-import uy.org.curso.jpa.domain.Address;
-import uy.org.curso.jpa.domain.Banco;
-import uy.org.curso.jpa.domain.Customer;
-
-import javax.persistence.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
 
 import java.util.List;
 
-import static junit.framework.TestCase.*;
-import static org.junit.Assert.assertThrows;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import uy.org.curso.jpa.domain.Address;
+import uy.org.curso.jpa.domain.Banco;
+import uy.org.curso.jpa.domain.Customer;
 
 /**
  * Queries - Integration Test teórico 06
@@ -41,6 +51,39 @@ public class Queries06IT {
 	@AfterClass
 	public static void closeFactory() {
        emf.close();
+	}
+	
+	
+	
+	@BeforeClass
+	public static void inicialiarDatos() {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+		Address a = new Address("Montevideo", "Uruguay", "Cuareim 1451", "12500");
+		Address b = new Address("Tacuarembo", "Uruguay", "Artigas 1234", "5643");
+		Address c = new Address("Bs As", "Argentina", "Libertador 9100", "34567");
+		
+		Customer c1 = new Customer("juan.larrayoz@gmail.com", "Juan", "Larrayoz",a);
+		Customer c2 = new Customer("ort@ort.edu.uy", "Jose", "Perez",b);
+		Customer c3 = new Customer("roberto@hotmail.com", "Roberto", "Larrayoz", c);
+		
+		Banco b1 = new Banco("BSE", "151");
+		Banco b2 = new Banco("BANCO REPUBLICA", "001");
+		
+		tx.begin();
+		em.persist(a);
+		em.persist(b);
+		em.persist(c);
+		
+		em.persist(c1);
+		em.persist(c2);
+		em.persist(c3);
+		
+		em.persist(b1);
+		em.persist(b2);
+		tx.commit();
+		em.close();
 	}
 
 	/**
@@ -125,7 +168,7 @@ public class Queries06IT {
 		query.setParameter("nombre", "BSE");
 		Banco banco = query.getResultStream().findFirst().orElse(null);
 
-		assertEquals(Long.valueOf(1L), banco.getVersion());
+		assertEquals(Long.valueOf(0L), banco.getVersion());
 
 		tx.begin();
 		banco.setCodigoBCU("555");
@@ -133,6 +176,6 @@ public class Queries06IT {
 
 		em.refresh(banco);
 
-		assertEquals(Long.valueOf(2L), banco.getVersion());
+		assertEquals(Long.valueOf(1L), banco.getVersion());
 	}
 }

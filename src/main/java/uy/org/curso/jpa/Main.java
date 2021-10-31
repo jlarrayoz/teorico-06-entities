@@ -1,13 +1,12 @@
 package uy.org.curso.jpa;
 
-import uy.org.curso.jpa.domain.Address;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+
 import uy.org.curso.jpa.domain.Customer;
-
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-
-import static junit.framework.TestCase.assertEquals;
 
 public class Main {
 
